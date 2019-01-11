@@ -14,34 +14,34 @@ MongoClient.connect(
     console.log('Connected to MongoDB server');
     const db = client.db('TodoApi');
 
-    // db.collection('Todos').insertOne(
-    //   {
-    //     title: 'Something to do',
-    //     completed: false,
-    //   },
-    //   (err, res) => {
-    //     if (err) {
-    //       return console.log(err);
-    //     }
+    db.collection('Todos').insertOne(
+      {
+        title: 'Something to do',
+        completed: false,
+      },
+      (err, res) => {
+        if (err) {
+          return console.log(err);
+        }
 
-    //     console.log(JSON.stringify(res.ops, null, 2));
-    //   }
-    // );
+        console.log(JSON.stringify(res.ops, null, 2));
+      }
+    );
 
-    // db.collection('Users').insertOne(
-    //   {
-    //     name: 'Jeroen',
-    //     age: 26,
-    //     location: 'Arnhem',
-    //   },
-    //   (err, res) => {
-    //     if (err) {
-    //       console.log(err);
-    //     }
+    db.collection('Users').insertOne(
+      {
+        name: 'Jeroen',
+        age: 26,
+        location: 'Arnhem',
+      },
+      (err, res) => {
+        if (err) {
+          console.log(err);
+        }
 
-    //     console.log(JSON.stringify(res.ops, null, 2));
-    //   }
-    // );
+        console.log(JSON.stringify(res.ops, null, 2));
+      }
+    );
 
     client.close();
   }
