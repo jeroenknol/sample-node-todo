@@ -17,6 +17,8 @@ const seedTodos = [
   {
     _id: new ObjectID(),
     title: 'Third dummy todo',
+    completed: true,
+    completedAt: 123,
   },
 ];
 
@@ -147,6 +149,38 @@ describe('DELETE /todos/:id', () => {
     request(app)
       .get(`/todos/123`)
       .expect(404)
+      .end(done);
+  });
+});
+
+describe('PATCH /todos/:id', () => {
+  it('should toggle an incomplete todo to complete', done => {
+    const idString = seedTodos[1]._id.toHexString();
+    const testString = 'TestString123';
+    request(app)
+      .patch(`/todos/${idString}`)
+      .send({ title: testString, completed: true })
+      .expect(200)
+      .expect(res => {
+        expect(res.body.todo.title).toBe(testString);
+        expect(res.body.todo.completed).toBeTruthy();
+        expect(typeof res.body.todo.completedAt).toBe('number');
+      })
+      .end(done);
+  });
+
+  it('should toggle a complete todo to incomplete', done => {
+    const idString = seedTodos[2]._id.toHexString();
+    const testString = 'TestStr!ng234';
+    request(app)
+      .patch(`/todos/${idString}`)
+      .send({ title: testString, completed: false })
+      .expect(200)
+      .expect(res => {
+        expect(res.body.todo.title).toBe(testString);
+        expect(res.body.todo.completed).toBeFalsy();
+        expect(res.body.todo.completedAt).toBe(null);
+      })
       .end(done);
   });
 });
